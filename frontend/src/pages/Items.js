@@ -6,8 +6,7 @@ import React, {
   useRef,
 } from "react";
 import { useData } from "../state/DataContext";
-import { Link } from "react-router-dom";
-import { FixedSizeList as List } from "react-window";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Search,
   ChevronLeft,
@@ -18,28 +17,21 @@ import {
 } from "lucide-react";
 import "./Items.css";
 
-// Item row component for virtualization
-const ItemRow = React.memo(({ index, style, data }) => {
-  const item = data[index];
-  if (!item) return null;
-
+const ItemCard = React.memo(({ item }) => {
   return (
-    <div style={style} className="item-row">
-      <div className="item-card">
-        <div className="item-header">
-          <Package className="item-icon" size={20} />
+    <div className="item-card">
+      <div className="item-header">
+        <Package className="item-icon" size={20} />
+        <div className="item-info">
           <h3 className="item-name">{item.name}</h3>
-        </div>
-        <div className="item-details">
           <div className="item-category">
-            <Tag size={16} />
+            <Tag size={14} />
             <span>{item.category}</span>
           </div>
-          <div className="item-price">
-            <DollarSign size={16} />
-            <span>${item.price.toLocaleString()}</span>
-          </div>
+          <div className="item-price">${item.price.toLocaleString()}</div>
         </div>
+      </div>
+      <div className="item-actions">
         <Link to={`/items/${item.id}`} className="item-link">
           View Details →
         </Link>
@@ -48,13 +40,11 @@ const ItemRow = React.memo(({ index, style, data }) => {
   );
 });
 
-// Search component
 const SearchBar = ({ onSearch, loading }) => {
   const [query, setQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const inputRef = useRef(null);
 
-  // Debounce search input
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedQuery(query);
@@ -67,16 +57,20 @@ const SearchBar = ({ onSearch, loading }) => {
     onSearch(debouncedQuery);
   }, [debouncedQuery, onSearch]);
 
-  // Handle input change with better focus management
   const handleInputChange = useCallback((e) => {
     setQuery(e.target.value);
   }, []);
 
-  // Handle keydown to prevent focus loss on backspace
   const handleKeyDown = useCallback((e) => {
-    // Prevent default behavior for backspace to maintain focus
     if (e.key === "Backspace") {
       e.stopPropagation();
+    }
+  }, []);
+
+  const handleClearSearch = useCallback(() => {
+    setQuery("");
+    if (inputRef.current) {
+      inputRef.current.focus();
     }
   }, []);
 
@@ -96,12 +90,21 @@ const SearchBar = ({ onSearch, loading }) => {
           autoComplete="off"
           spellCheck="false"
         />
+        {query && (
+          <button
+            onClick={handleClearSearch}
+            className="clear-search-btn"
+            type="button"
+            title="Clear search"
+          >
+            ×
+          </button>
+        )}
       </div>
     </div>
   );
 };
 
-// Pagination component
 const Pagination = ({ pagination, onPageChange, loading }) => {
   const { currentPage, totalPages, hasNextPage, hasPrevPage } = pagination;
 
@@ -134,21 +137,22 @@ const Pagination = ({ pagination, onPageChange, loading }) => {
   );
 };
 
-// Loading skeleton
 const LoadingSkeleton = () => (
   <div className="loading-skeleton">
-    {Array.from({ length: 5 }).map((_, index) => (
-      <div key={index} className="skeleton-item">
-        <div className="skeleton-header">
-          <div className="skeleton-icon"></div>
-          <div className="skeleton-title"></div>
+    <div className="skeleton-grid">
+      {Array.from({ length: 8 }).map((_, index) => (
+        <div key={index} className="skeleton-item">
+          <div className="skeleton-header">
+            <div className="skeleton-icon"></div>
+            <div>
+              <div className="skeleton-title"></div>
+              <div className="skeleton-category"></div>
+              <div className="skeleton-price"></div>
+            </div>
+          </div>
         </div>
-        <div className="skeleton-details">
-          <div className="skeleton-text"></div>
-          <div className="skeleton-text"></div>
-        </div>
-      </div>
-    ))}
+      ))}
+    </div>
   </div>
 );
 
@@ -157,35 +161,26 @@ function Items() {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Fetch items on mount and when search/page changes
   useEffect(() => {
     fetchItems(currentPage, searchQuery);
-
-    // Cleanup function to prevent memory leaks
     return () => {
       cleanup();
     };
   }, [currentPage, searchQuery, fetchItems, cleanup]);
 
-  // Handle search with memoization to prevent unnecessary re-renders
   const handleSearch = useCallback((query) => {
     setSearchQuery(query);
-    setCurrentPage(1); // Reset to first page when searching
+    setCurrentPage(1);
   }, []);
 
-  // Handle page change with memoization
   const handlePageChange = useCallback((page) => {
     setCurrentPage(page);
   }, []);
 
-  // Memoize SearchBar to prevent re-renders that cause focus loss
   const memoizedSearchBar = useMemo(
     () => <SearchBar onSearch={handleSearch} loading={loading} />,
     [handleSearch, loading]
   );
-
-  // Memoize list data for virtualization
-  const listData = useMemo(() => items, [items]);
 
   if (error) {
     return (
@@ -223,15 +218,11 @@ function Items() {
         ) : (
           <>
             <div className="items-list">
-              <List
-                height={600}
-                itemCount={items.length}
-                itemSize={120}
-                itemData={listData}
-                width="100%"
-              >
-                {ItemRow}
-              </List>
+              <div className="items-grid">
+                {items.map((item) => (
+                  <ItemCard key={item.id} item={item} />
+                ))}
+              </div>
             </div>
 
             <Pagination

@@ -9,9 +9,13 @@ async function readData() {
   return JSON.parse(raw);
 }
 
+async function writeData(data) {
+  await fs.writeFile(DATA_PATH, JSON.stringify(data, null, 2));
+}
+
 router.get("/", async (req, res, next) => {
   try {
-    const { limit = 10, page = 1, q } = req.query;
+    const { limit = 12, page = 1, q } = req.query;
     const data = await readData();
     let results = data;
     if (q) {
@@ -75,8 +79,37 @@ router.post("/", async (req, res, next) => {
       price,
     };
     data.push(newItem);
-    await fs.writeFile(DATA_PATH, JSON.stringify(data, null, 2));
+    await writeData(data);
     res.status(201).json(newItem);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.put("/:id", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { name, category, price } = req.body;
+    if (!name || !category || typeof price !== "number") {
+      const err = new Error("Invalid item data");
+      err.status = 400;
+      throw err;
+    }
+    const data = await readData();
+    const itemIndex = data.findIndex((i) => i.id === parseInt(id));
+    if (itemIndex === -1) {
+      const err = new Error("Item not found");
+      err.status = 404;
+      throw err;
+    }
+    data[itemIndex] = {
+      ...data[itemIndex],
+      name,
+      category,
+      price,
+    };
+    await writeData(data);
+    res.json(data[itemIndex]);
   } catch (err) {
     next(err);
   }

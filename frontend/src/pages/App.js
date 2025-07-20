@@ -1,14 +1,14 @@
-import React from 'react';
-import { Routes, Route, Link, useLocation } from 'react-router-dom';
-import Items from './Items';
-import ItemDetail from './ItemDetail';
-import { DataProvider } from '../state/DataContext';
-import { Package, BarChart3 } from 'lucide-react';
-import './App.css';
+import React from "react";
+import { Routes, Route, Link, useLocation } from "react-router-dom";
+import Items from "./Items";
+import ItemDetail from "./ItemDetail";
+import { DataProvider } from "../state/DataContext";
+import { Package, BarChart3 } from "lucide-react";
+import "./App.css";
 
 function Navigation() {
   const location = useLocation();
-  
+
   return (
     <nav className="navbar">
       <div className="nav-container">
@@ -16,18 +16,20 @@ function Navigation() {
           <Package size={24} />
           <span>Item Catalog</span>
         </Link>
-        
+
         <div className="nav-links">
-          <Link 
-            to="/" 
-            className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}
+          <Link
+            to="/"
+            className={`nav-link ${location.pathname === "/" ? "active" : ""}`}
           >
             <Package size={20} />
             <span>Items</span>
           </Link>
-          <Link 
-            to="/stats" 
-            className={`nav-link ${location.pathname === '/stats' ? 'active' : ''}`}
+          <Link
+            to="/stats"
+            className={`nav-link ${
+              location.pathname === "/stats" ? "active" : ""
+            }`}
           >
             <BarChart3 size={20} />
             <span>Stats</span>
@@ -55,23 +57,22 @@ function App() {
   );
 }
 
-// Stats page component
 function StatsPage() {
   const [stats, setStats] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState(null);
 
   React.useEffect(() => {
-    fetch('http://localhost:4001/api/stats')
-      .then(res => {
-        if (!res.ok) throw new Error('Failed to fetch stats');
+    fetch("http://localhost:4001/api/stats")
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch stats");
         return res.json();
       })
-      .then(data => {
+      .then((data) => {
         setStats(data);
         setLoading(false);
       })
-      .catch(err => {
+      .catch((err) => {
         setError(err.message);
         setLoading(false);
       });
@@ -123,7 +124,9 @@ function StatsPage() {
           </div>
           <div className="stat-content">
             <h3>Average Price</h3>
-            <p className="stat-value">${stats?.averagePrice?.toFixed(2) || '0.00'}</p>
+            <p className="stat-value">
+              ${stats?.averagePrice?.toFixed(2) || "0.00"}
+            </p>
           </div>
         </div>
 

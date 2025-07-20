@@ -1,5 +1,5 @@
 .detail-container {
-  max-width: 1200px;
+  max-width: 800px;
   margin: 0 auto;
   padding: 2rem;
   min-height: 100vh;
@@ -19,36 +19,32 @@
   border: 1px solid #e5e7eb;
   border-radius: 8px;
   color: #6b7280;
+  text-decoration: none;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
-  text-decoration: none;
 }
 
 .back-btn:hover {
   border-color: #8b5cf6;
   color: #8b5cf6;
-  transform: translateY(-1px);
 }
 
 .detail-content {
-  display: flex;
-  justify-content: center;
-}
-
-.item-detail-card {
   background: white;
   border-radius: 16px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.item-detail-card {
   padding: 2rem;
-  max-width: 600px;
-  width: 100%;
 }
 
 .item-detail-header {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1rem;
   margin-bottom: 2rem;
   padding-bottom: 1.5rem;
   border-bottom: 1px solid #e5e7eb;
@@ -58,34 +54,23 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
-  border-radius: 16px;
+  border-radius: 12px;
   color: white;
 }
 
-.item-info {
-  flex: 1;
-}
-
-.item-title {
+.item-info h1 {
+  margin: 0 0 0.5rem 0;
+  color: #1f2937;
   font-size: 2rem;
   font-weight: 700;
-  color: #1f2937;
-  margin: 0 0 0.5rem 0;
 }
 
 .item-meta {
   color: #6b7280;
   font-size: 0.9rem;
-}
-
-.item-id {
-  background: #f3f4f6;
-  padding: 0.25rem 0.75rem;
-  border-radius: 6px;
-  font-family: 'Courier New', monospace;
 }
 
 .item-details-grid {
@@ -100,14 +85,14 @@
   align-items: center;
   padding: 1rem;
   background: #f9fafb;
-  border-radius: 12px;
+  border-radius: 8px;
   border: 1px solid #e5e7eb;
 }
 
 .detail-label {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.5rem;
   color: #6b7280;
   font-weight: 500;
 }
@@ -165,6 +150,44 @@
   transform: translateY(-2px);
 }
 
+/* Edit Form Styles */
+.edit-form {
+  margin-bottom: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #374151;
+  font-weight: 600;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+.edit-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
 .loading-state,
 .error-state {
   display: flex;
@@ -212,36 +235,103 @@
   justify-content: center;
 }
 
+/* Mobile Responsive Design */
 @media (max-width: 768px) {
   .detail-container {
     padding: 1rem;
   }
-  
+
+  .detail-header {
+    margin-bottom: 1.5rem;
+  }
+
+  .back-btn {
+    padding: 0.875rem 1.25rem;
+    font-size: 1rem;
+    width: 100%;
+    justify-content: center;
+  }
+
   .item-detail-card {
     padding: 1.5rem;
   }
-  
+
   .item-detail-header {
     flex-direction: column;
     text-align: center;
     gap: 1rem;
   }
-  
-  .item-title {
-    font-size: 1.5rem;
+
+  .item-info h1 {
+    font-size: 1.75rem;
+    text-align: center;
   }
-  
+
+  .item-meta {
+    text-align: center;
+  }
+
   .detail-item {
     flex-direction: column;
     gap: 0.5rem;
     text-align: center;
   }
-  
+
   .item-actions {
     flex-direction: column;
+    gap: 0.75rem;
   }
-  
+
+  .btn {
+    width: 100%;
+    justify-content: center;
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .edit-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .form-input {
+    font-size: 16px; /* Prevents zoom on iOS */
+    padding: 0.875rem;
+  }
+
   .error-actions {
     flex-direction: column;
+    gap: 0.75rem;
   }
-} 
+}
+
+@media (max-width: 480px) {
+  .detail-container {
+    padding: 0.5rem;
+  }
+
+  .item-detail-card {
+    padding: 1rem;
+  }
+
+  .item-info h1 {
+    font-size: 1.5rem;
+  }
+
+  .item-icon-large {
+    width: 50px;
+    height: 50px;
+  }
+
+  .detail-item {
+    padding: 0.875rem;
+  }
+
+  .detail-value {
+    font-size: 1rem;
+  }
+
+  .detail-value.price {
+    font-size: 1.1rem;
+  }
+}

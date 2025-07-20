@@ -1,32 +1,170 @@
 [
-  { "id": 1, "name": "Laptop Pro", "category": "Electronics", "price": 2499 },
-  { "id": 2, "name": "Noise Cancelling Headphones", "category": "Electronics", "price": 399 },
-  { "id": 3, "name": "Ultra-Wide Monitor", "category": "Electronics", "price": 999 },
-  { "id": 4, "name": "Ergonomic Chair", "category": "Furniture", "price": 799 },
-  { "id": 5, "name": "Standing Desk", "category": "Furniture", "price": 1199 },
-  { "id": 6, "name": "Wireless Mouse", "category": "Electronics", "price": 89 },
-  { "id": 7, "name": "Mechanical Keyboard", "category": "Electronics", "price": 199 },
-  { "id": 8, "name": "Office Lamp", "category": "Furniture", "price": 149 },
-  { "id": 9, "name": "Desk Organizer", "category": "Furniture", "price": 45 },
-  { "id": 10, "name": "USB-C Hub", "category": "Electronics", "price": 79 },
-  { "id": 11, "name": "Webcam HD", "category": "Electronics", "price": 129 },
-  { "id": 12, "name": "Bluetooth Speaker", "category": "Electronics", "price": 89 },
-  { "id": 13, "name": "Monitor Stand", "category": "Furniture", "price": 69 },
-  { "id": 14, "name": "Cable Management", "category": "Electronics", "price": 25 },
-  { "id": 15, "name": "Desk Mat", "category": "Furniture", "price": 35 },
-  { "id": 16, "name": "Tablet Pro", "category": "Electronics", "price": 899 },
-  { "id": 17, "name": "Smart Watch", "category": "Electronics", "price": 299 },
-  { "id": 18, "name": "Gaming Chair", "category": "Furniture", "price": 299 },
-  { "id": 19, "name": "LED Strip Lights", "category": "Electronics", "price": 49 },
-  { "id": 20, "name": "File Cabinet", "category": "Furniture", "price": 199 },
-  { "id": 21, "name": "Portable SSD", "category": "Electronics", "price": 159 },
-  { "id": 22, "name": "Wireless Charger", "category": "Electronics", "price": 39 },
-  { "id": 23, "name": "Bookshelf", "category": "Furniture", "price": 249 },
-  { "id": 24, "name": "Coffee Mug Warmer", "category": "Electronics", "price": 29 },
-  { "id": 25, "name": "Footrest", "category": "Furniture", "price": 59 },
-  { "id": 26, "name": "USB Fan", "category": "Electronics", "price": 19 },
-  { "id": 27, "name": "Monitor Arm", "category": "Furniture", "price": 89 },
-  { "id": 28, "name": "Wireless Earbuds", "category": "Electronics", "price": 159 },
-  { "id": 29, "name": "Desk Drawer", "category": "Furniture", "price": 79 },
-  { "id": 30, "name": "Power Strip", "category": "Electronics", "price": 45 }
+  {
+    "id": 3,
+    "name": "Ultra-Wide Monitor",
+    "category": "Electronics",
+    "price": 999
+  },
+  {
+    "id": 4,
+    "name": "Ergonomic Chair",
+    "category": "Furniture",
+    "price": 799
+  },
+  {
+    "id": 5,
+    "name": "Standing Desk",
+    "category": "Furniture",
+    "price": 1199
+  },
+  {
+    "id": 6,
+    "name": "Wireless Mouse",
+    "category": "Electronics",
+    "price": 89
+  },
+  {
+    "id": 7,
+    "name": "Mechanical Keyboard",
+    "category": "Electronics",
+    "price": 199
+  },
+  {
+    "id": 8,
+    "name": "Office Lamp",
+    "category": "Furniture",
+    "price": 149
+  },
+  {
+    "id": 9,
+    "name": "Desk Organizer",
+    "category": "Furniture",
+    "price": 45
+  },
+  {
+    "id": 10,
+    "name": "USB-C Hub",
+    "category": "Electronics",
+    "price": 79
+  },
+  {
+    "id": 11,
+    "name": "Webcam HD",
+    "category": "Electronics",
+    "price": 129
+  },
+  {
+    "id": 12,
+    "name": "Bluetooth Speaker",
+    "category": "Electronics",
+    "price": 89
+  },
+  {
+    "id": 13,
+    "name": "Monitor Stand",
+    "category": "Furniture",
+    "price": 69
+  },
+  {
+    "id": 14,
+    "name": "Cable Management",
+    "category": "Electronics",
+    "price": 25
+  },
+  {
+    "id": 15,
+    "name": "Desk Mat",
+    "category": "Furniture",
+    "price": 35
+  },
+  {
+    "id": 16,
+    "name": "Tablet Pro",
+    "category": "Electronics",
+    "price": 899
+  },
+  {
+    "id": 17,
+    "name": "Smart Watch",
+    "category": "Electronics",
+    "price": 299
+  },
+  {
+    "id": 18,
+    "name": "Gaming Chair",
+    "category": "Furniture",
+    "price": 299
+  },
+  {
+    "id": 19,
+    "name": "LED Strip Lights",
+    "category": "Electronics",
+    "price": 49
+  },
+  {
+    "id": 20,
+    "name": "File Cabinet",
+    "category": "Furniture",
+    "price": 199
+  },
+  {
+    "id": 21,
+    "name": "Portable SSD",
+    "category": "Electronics",
+    "price": 159
+  },
+  {
+    "id": 22,
+    "name": "Wireless Charger",
+    "category": "Electronics",
+    "price": 39
+  },
+  {
+    "id": 23,
+    "name": "Bookshelf",
+    "category": "Furniture",
+    "price": 249
+  },
+  {
+    "id": 24,
+    "name": "Coffee Mug Warmer",
+    "category": "Electronics",
+    "price": 29
+  },
+  {
+    "id": 25,
+    "name": "Footrest",
+    "category": "Furniture",
+    "price": 59
+  },
+  {
+    "id": 26,
+    "name": "USB Fan",
+    "category": "Electronics",
+    "price": 19
+  },
+  {
+    "id": 27,
+    "name": "Monitor Arm",
+    "category": "Furniture",
+    "price": 89
+  },
+  {
+    "id": 28,
+    "name": "Wireless Earbuds",
+    "category": "Electronics",
+    "price": 159
+  },
+  {
+    "id": 29,
+    "name": "Desk Drawer",
+    "category": "Furniture",
+    "price": 79
+  },
+  {
+    "id": 30,
+    "name": "Power Strip",
+    "category": "Electronics",
+    "price": 45
+  }
 ]

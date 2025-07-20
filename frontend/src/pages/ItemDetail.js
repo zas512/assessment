@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Package, Tag, DollarSign, Loader } from 'lucide-react';
+import { ArrowLeft, Package, Tag, DollarSign, Loader, Edit } from 'lucide-react';
 import './ItemDetail.css';
 
 function ItemDetail() {
@@ -8,16 +8,16 @@ function ItemDetail() {
   const [item, setItem] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editForm, setEditForm] = useState({ name: '', category: '', price: '' });
   const navigate = useNavigate();
   const abortControllerRef = useRef(null);
 
   useEffect(() => {
-    // Cancel previous request if it exists
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
     }
 
-    // Create new abort controller
     abortControllerRef.current = new AbortController();
     
     setLoading(true);
@@ -34,6 +34,7 @@ function ItemDetail() {
       })
       .then(data => {
         setItem(data);
+        setEditForm({ name: data.name, category: data.category, price: data.price });
         setLoading(false);
       })
       .catch(err => {
@@ -43,13 +44,55 @@ function ItemDetail() {
         }
       });
 
-    // Cleanup function to prevent memory leaks
     return () => {
       if (abortControllerRef.current) {
         abortControllerRef.current.abort();
       }
     };
   }, [id]);
+
+  const handleEdit = () => {
+    setIsEditing(true);
+  };
+
+  const handleCancelEdit = () => {
+    setIsEditing(false);
+    setEditForm({ name: item.name, category: item.category, price: item.price });
+  };
+
+  const handleSaveEdit = async () => {
+    try {
+      const response = await fetch(`http://localhost:4001/api/items/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: editForm.name,
+          category: editForm.category,
+          price: parseFloat(editForm.price)
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update item');
+      }
+
+      const updatedItem = await response.json();
+      setItem(updatedItem);
+      setIsEditing(false);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditForm(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
 
   if (loading) {
     return (
@@ -120,32 +163,76 @@ function ItemDetail() {
             </div>
           </div>
 
-          <div className="item-details-grid">
-            <div className="detail-item">
-              <div className="detail-label">
-                <Tag size={20} />
-                <span>Category</span>
+          {isEditing ? (
+            <div className="edit-form">
+              <div className="form-group">
+                <label>Name:</label>
+                <input
+                  type="text"
+                  name="name"
+                  value={editForm.name}
+                  onChange={handleInputChange}
+                  className="form-input"
+                />
               </div>
-              <div className="detail-value">{item.category}</div>
-            </div>
-
-            <div className="detail-item">
-              <div className="detail-label">
-                <DollarSign size={20} />
-                <span>Price</span>
+              <div className="form-group">
+                <label>Category:</label>
+                <input
+                  type="text"
+                  name="category"
+                  value={editForm.category}
+                  onChange={handleInputChange}
+                  className="form-input"
+                />
               </div>
-              <div className="detail-value price">${item.price.toLocaleString()}</div>
+              <div className="form-group">
+                <label>Price:</label>
+                <input
+                  type="number"
+                  name="price"
+                  value={editForm.price}
+                  onChange={handleInputChange}
+                  className="form-input"
+                  step="0.01"
+                />
+              </div>
+              <div className="edit-actions">
+                <button onClick={handleSaveEdit} className="btn btn-primary">
+                  Save Changes
+                </button>
+                <button onClick={handleCancelEdit} className="btn btn-secondary">
+                  Cancel
+                </button>
+              </div>
             </div>
-          </div>
+          ) : (
+            <>
+              <div className="item-details-grid">
+                <div className="detail-item">
+                  <div className="detail-label">
+                    <Tag size={20} />
+                    <span>Category</span>
+                  </div>
+                  <div className="detail-value">{item.category}</div>
+                </div>
 
-          <div className="item-actions">
-            <button className="btn btn-primary">
-              Add to Cart
-            </button>
-            <button className="btn btn-secondary">
-              Save for Later
-            </button>
-          </div>
+                <div className="detail-item">
+                  <div className="detail-label">
+                    <DollarSign size={20} />
+                    <span>Price</span>
+                  </div>
+                  <div className="detail-value price">${item.price.toLocaleString()}</div>
+                </div>
+              </div>
+
+              <div className="item-actions">
+                <button onClick={handleEdit} className="btn btn-primary">
+                  <Edit size={16} />
+                  Edit Item
+                </button>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
